@@ -1,4 +1,4 @@
-package com.camla.global.erp.service.domain;
+package com.camlait.global.erp.service.domain;
 
 import com.camlait.global.erp.domain.helper.SerializerHelper;
 

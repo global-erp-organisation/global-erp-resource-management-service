@@ -1,4 +1,4 @@
-package com.camla.global.erp.service;
+package com.camlait.global.erp.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

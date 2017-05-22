@@ -1,4 +1,4 @@
-package com.camla.global.erp.service.controllers;
+package com.camlait.global.erp.service.controllers;
 
 import java.util.List;
 
@@ -11,34 +11,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.camla.global.erp.service.domain.UserModel;
-import com.camlait.global.erp.delegate.auth.UserManager;
 import com.camlait.global.erp.delegate.util.encryption.PasswordManager;
 import com.camlait.global.erp.domain.auth.User;
+import com.camlait.global.erp.service.domain.UserModel;
 import com.camlait.global.erp.validation.Validator;
+import com.camlait.global.erp.validation.ValidatorResult;
 
 @RestController
 @RequestMapping(value = "/global/v1/login")
 public class LoginService {
 
-    private final UserManager userManager;
     private final PasswordManager passwordManager;
-    private final Validator<UserModel> userModelValidator;
+    private final Validator<UserModel, User> userModelValidator;
 
     @Autowired
-    public LoginService(UserManager userManager, PasswordManager passwordManager, Validator<UserModel> userModelValidator) {
+    public LoginService(PasswordManager passwordManager, Validator<UserModel, User> userModelValidator) {
         this.passwordManager = passwordManager;
-        this.userManager = userManager;
         this.userModelValidator = userModelValidator;
     }
 
     @RequestMapping(value = "/checking", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> login(@RequestBody UserModel userModel) {
-        final List<String> errors = userModelValidator.validate(userModel);
+        final ValidatorResult<User> result = userModelValidator.validate(userModel);
+        final List<String> errors = result.getErrors();
         if (!errors.isEmpty()) {
             return ResponseEntity.badRequest().body(String.join("\n", errors));
         }
-        final User user = userManager.retrieveUserByEmail(userModel.getEmail());
+        final User user = result.getResult();
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with identifier " + userModel.getEmail() + " not found.");
         }

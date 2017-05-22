@@ -1,4 +1,4 @@
-package com.camla.global.erp.service.domain;
+package com.camlait.global.erp.service.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
