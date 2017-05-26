@@ -27,7 +27,7 @@ public class UserModelValidator implements Validator<UserModel, User> {
         final List<String> errors = Lists.newArrayList();
         
         if (errors.isEmpty()) {
-            final User user = userManager.retrieveUserByEmail(toValidate.getEmail());
+            final User user = userManager.retrieveUser(toValidate.getEmail());
             return build(errors, user);
         }
         return build(errors, null);
