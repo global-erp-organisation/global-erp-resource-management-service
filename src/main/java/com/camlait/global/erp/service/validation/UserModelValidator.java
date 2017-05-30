@@ -33,12 +33,4 @@ public class UserModelValidator implements Validator<UserModel, User> {
         return build(errors, null);
     }
 
-    @Override
-    public ValidatorResult<User> build(List<String> errors, User result) {
-        final ValidatorResult<User> vr = new ValidatorResult<User>();
-        vr.setErrors(errors);
-        vr.setResult(result);
-        return vr;
-    }
-
 }
